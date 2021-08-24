@@ -1,4 +1,9 @@
-function preload() {}
+noseX = 0;
+noseY = 0;
+
+function preload() {
+    moustache = loadImage("https://i.postimg.cc/mDCcGL4x/image-removebg-preview-13.png");
+}
 
 function setup() {
     canvas = createCanvas(400, 340);
@@ -9,10 +14,6 @@ function setup() {
 
     poseNet = ml5.poseNet(video, modelLoaded);
     poseNet.on('pose', gotPoses);
-}
-
-function draw() {
-    image(video, 0, 0, 400, 340);
 }
 
 function take_snapshot() {
@@ -26,7 +27,17 @@ function modelLoaded() {
 function gotPoses(results) {
     if(results.length > 0) {
         console.log(results);
-        console.log("nose x = " + results[0].pose.nose.x);
-        console.log("nose y = " + results[0].pose.nose.y);
+        noseX = results[0].pose.nose.x - 162;
+        noseY = results[0].pose.nose.y - 80;
+        console.log("nose x = " + noseX);
+        console.log("nose y = " + noseY);
     }
+}
+
+function draw() {
+    image(video, 0, 0, 400, 340);
+    // fill(255, 0, 0);
+    // stroke(255, 0, 0);
+    // circle(noseX, noseY, 20);
+    image(moustache, noseX, noseY, 320, 140);
 }
